@@ -1,6 +1,8 @@
 project(ISO_object LANGUAGES C CXX)
 cmake_minimum_required(VERSION 3.14)
 
+find_package(ament_cmake REQUIRED)
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -124,7 +126,19 @@ target_link_libraries(${ISOOBJECT_TEST} LINK_PUBLIC
     Boost::program_options
 )
 
+
+
 endif()
+
+ament_export_include_directories(
+  ${CMAKE_CURRENT_SOURCE_DIR}/inc
+  ${CMAKE_CURRENT_SOURCE_DIR}/sigslot/include/sigslot
+  ${CMAKE_CURRENT_SOURCE_DIR}/iso22133
+)
+
+ament_export_libraries(${ISOOBJECT_LIBRARY})
+
+ament_export_dependencies(Boost)
 
 install(CODE "MESSAGE(STATUS \"Installing target ${ISOOBJECT_LIBRARY}\")")
 install(TARGETS ${ISOOBJECT_LIBRARY}
@@ -215,3 +229,5 @@ if (BUILD_TESTING)
 	include(GoogleTest)
 	gtest_discover_tests(${ISOOBJECT_LIBRARY}_test)
 endif()
+
+ament_package()
